@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donation Match Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+        }
+        .container h1 {
+            margin-bottom: 10px;
+        }
+        .container img {
+            max-width: 50%;
+            height: auto;
+            margin-bottom: 20px;
+        }
+        .container p {
+            font-size: 0.9em;
+            color: #555;
+            margin-bottom: 20px;
+        }
+        .container input, .container button, .suggested-donation {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .container button {
+            background: #dc3545;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .container button:hover {
+            background: #c82333;
+        }
+        .suggested-donation {
+            background: #17a2b8;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .suggested-donation:hover {
+            background: #138496;
+        }
+        .result {
+            text-align: center;
+            font-size: 1.2em;
+        }
+        .warning {
+            color: red;
+            font-size: 1em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="logo (4).png" alt="Nick Robbins Logo">
+        <h1>Matching Funds Calculator</h1>
+        <p>Through the New York City Public Campaign Finance Board's Matching Funds Program, donations from $10 - $175, made by New York City residents, are matched 8-to-1! Enter your contribution amount to see your total impact.</p>
+        <input type="number" id="donationAmount" placeholder="Enter your donation amount" />
+        <button onclick="calculateMatch()">What Is My Donation Worth?</button>
+        <div>
+            <button class="suggested-donation" onclick="setDonation(10)">Donate $10</button>
+            <button class="suggested-donation" onclick="setDonation(50)">Donate $50</button>
+            <button class="suggested-donation" onclick="setDonation(100)">Donate $100</button>
+            <button class="suggested-donation" onclick="setDonation(175)">Donate $175</button>
+        </div>
+        <div class="result" id="result"></div>
+        <div class="warning" id="warning"></div>
+    </div>
+    <script>
+        function calculateMatch() {
+            var donationAmount = parseFloat(document.getElementById('donationAmount').value);
+            var warningMessage = '';
+            if (donationAmount && donationAmount > 0) {
+                var matchableAmount = Math.min(donationAmount, 175);
+                var matchAmount = matchableAmount * 8;
+                var totalValue = donationAmount + matchAmount;
+                document.getElementById('result').innerText = 'Total Value: $' + totalValue.toFixed(2);
+                if (donationAmount > 175) {
+                    warningMessage = 'Only the first $175 of your donation is matched.';
+                }
+            } else {
+                document.getElementById('result').innerText = 'Please enter a valid donation amount.';
+            }
+            document.getElementById('warning').innerText = warningMessage;
+        }
+
+        function setDonation(amount) {
+            document.getElementById('donationAmount').value = amount;
+            calculateMatch();
+        }
+    </script>
+</body>
+</html>
